@@ -3,6 +3,8 @@ import turtle
 import random
 import math
 import time
+
+#VARIABLES
 turtle.colormode(255)
 turtle.hideturtle()
 turtle.pu()
@@ -16,6 +18,8 @@ blocks_num=7
 RUNNING=True
 SCREEN_WIDTH=400
 SCREEN_HEIGHT=400
+
+#LISTS
 block_list=[]
 FOOD_list=[]
 xposes=[-300,-200,-100,0,100,200,300,400]
