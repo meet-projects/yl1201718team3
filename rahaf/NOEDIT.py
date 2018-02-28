@@ -14,7 +14,7 @@ me=8
 SLEEP=0.065
 me2=1
 FOOD_NUM=1
-blocks_num=7
+blocks_num=8
 RUNNING=True
 SCREEN_WIDTH=400
 SCREEN_HEIGHT=400
@@ -23,6 +23,8 @@ SCREEN_HEIGHT=400
 block_list=[]
 FOOD_list=[]
 xposes=[-300,-200,-100,0,100,200,300,400]
+me_x_poses=[-300,-200,-100,0,100,200,300,400]
+difference=[]
 
 #CLASS
 class BLOCK(Turtle):
@@ -77,15 +79,16 @@ class Food(Turtle):
 		buttom_side_ball=new_y-self.radius
 		self.goto(new_x,new_y)
 def make_food():
-	for i in range(FOOD_NUM):
-		global me,me2
-		x = random.choice(xposes)
-		for i in block_list:
-			while i.xcor == x:
-				x = random.choice(xposes)
-		y=300
-		block=Food(x,y)
-		FOOD_list.append(block)
+	for b in range(FOOD_NUM):
+		global difference,me_x_poses
+		for a in block_list:
+			if a.xcor() not in me_x_poses:
+				difference.append(a)
+		if(len(difference) > 0):
+			x= random.choice(difference)
+			y=300
+			block=Food(x,y)
+			FOOD_list.append(block)
 def move_food():
 
 	for i in FOOD_list:
@@ -197,7 +200,7 @@ while RUNNING==True:
 		c+=1
 		if c==10:
 			stop=False
-		getscreen().update()
+		update()
 		time.sleep(SLEEP)
 
 
