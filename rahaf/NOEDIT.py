@@ -24,7 +24,7 @@ block_list=[]
 FOOD_list=[]
 xposes=[-300,-200,-100,0,100,200,300,400]
 
-#BLOCKS
+#CLASS
 class BLOCK(Turtle):
 	def __init__(self,x,y,number):
 		Turtle.__init__(self)
@@ -55,7 +55,44 @@ class BLOCK(Turtle):
 			self.goto(-400,400)
 			self.goto(0,400)
 
+class Food(Turtle):
+	def __init__ (self,x,y):
+		Turtle.__init__(self)
+		self.hideturtle()
+		self.shape("circle")
+		self.pu()
+		self.x=x
+		self.y=y
+		self.goto(x,y)
+		self.dy=15
+		self.radius=10
+		self.shapesize(10/10)
+		self.color("red")
+		self.showturtle()
+	def movef(self):
+		current_x=self.xcor()
+		current_y=self.ycor()
+		new_y=current_y-self.dy
+		new_x=current_x
+		buttom_side_ball=new_y-self.radius
+		self.goto(new_x,new_y)
+def make_food():
+	for i in range(FOOD_NUM):
+		global me,me2
+		x = random.choice(xposes)
+		for i in block_list:
+			while i.xcor == x:
+				x = random.choice(xposes)
+		y=300
+		block=Food(x,y)
+		FOOD_list.append(block)
+def move_food():
 
+	for i in FOOD_list:
+		i.movef()
+
+
+#FUNCTIONS
 
 def make_blocks():
 	for i in range(blocks_num):
@@ -98,9 +135,9 @@ def make_blocks():
 		me2=0
 
 def move_blocks():
-
 	for i in block_list:
 		i.move()
+		
 def move_me():
 	for i in block_list:
 		current_x=i.xcor()
@@ -144,45 +181,6 @@ def move_me():
 			y=300
 			number=random.randint(1,20)
 			i.goto(x,y)
-
-
-#FOOD
-class Food(Turtle):
-	def __init__ (self,x,y):
-		Turtle.__init__(self)
-		self.hideturtle()
-		self.shape("circle")
-		self.pu()
-		self.x=x
-		self.y=y
-		self.goto(x,y)
-		self.dy=15
-		self.radius=10
-		self.shapesize(10/10)
-		self.color("red")
-		self.showturtle()
-	def movef(self):
-		current_x=self.xcor()
-		current_y=self.ycor()
-		new_y=current_y-self.dy
-		new_x=current_x
-		buttom_side_ball=new_y-self.radius
-		self.goto(new_x,new_y)
-def make_food():
-	for i in range(FOOD_NUM):
-		global me,me2
-		x = random.choice(xposes)
-		for i in block_list:
-			while i.xcor == x:
-				x = random.choice(xposes)
-		y=300
-		block=Food(x,y)
-		FOOD_list.append(block)
-def move_food():
-
-	for i in FOOD_list:
-		i.movef()
-
 
 
 while RUNNING==True:
