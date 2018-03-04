@@ -22,9 +22,13 @@ SCREEN_HEIGHT=400
 #LISTS
 block_list=[]
 FOOD_list=[]
+<<<<<<< HEAD
 xposes=[-300,-200,-100,0,100,200,300,400]
 me_x_poses=[-300,-200,-100,0,100,200,300,400]
 difference=[]
+=======
+blockxpos=[-400,-200,-100,100,200,400]
+>>>>>>> 4e27dda7208fc8ad84826d3b1f6c3d0333f4b4fe
 
 #CLASS
 class BLOCK(Turtle):
@@ -78,6 +82,7 @@ class Food(Turtle):
 		new_x=current_x
 		buttom_side_ball=new_y-self.radius
 		self.goto(new_x,new_y)
+<<<<<<< HEAD
 def make_food():
 	for b in range(FOOD_NUM):
 		global difference,me_x_poses
@@ -90,6 +95,35 @@ def make_food():
 			block=Food(x,y)
 			FOOD_list.append(block)
 def move_food():
+=======
+
+def make_food():
+	for b in range(FOOD_NUM):
+		m=random.randint(0,3)
+
+		if m==0:
+			x=0
+			y=300
+			food=Food(x,y)
+			FOOD_list.append(food)
+		if m==1:
+			x=300
+			y=300
+			food=Food(x,y)
+			FOOD_list.append(food)
+		if m==2:
+			x=-300
+			y=300
+			food=Food(x,y)
+			FOOD_list.append(food)
+		if m==3:
+			pass
+
+def move_food():
+
+	for i in FOOD_list:
+		i.movef()
+>>>>>>> 4e27dda7208fc8ad84826d3b1f6c3d0333f4b4fe
 
 	for i in FOOD_list:
 		i.movef()
@@ -97,10 +131,12 @@ def move_food():
 
 #FUNCTIONS
 
+#FUNCTIONS
+
 def make_blocks():
 	for i in range(blocks_num):
 		global me,me2
-		x= random.choice(xposes)
+		x= random.choice(blockxpos)
 		#block 6
 		if me==-2:
 			x1=x
@@ -128,7 +164,7 @@ def make_blocks():
 		if me2==0:
 			global x1
 			while x1==x:
-				x= random.choice(xposes)
+				x= random.choice(blockxpos)
 				me-=1
 
 		y=300
@@ -150,7 +186,7 @@ def move_me():
 		buttom_side_ball=new_y-i.height
 		if buttom_side_ball > 300:
 			global me,me2
-			x= random.choice(xposes)
+			x= random.choice(blockxpos)
 			#block 6
 			if me==-2:
 				x1=x
@@ -178,7 +214,7 @@ def move_me():
 			if me2==0:
 				global x1
 				while x1==x:
-					x= random.choice(xposes)
+					x= random.choice(blockxpos)
 					me-=1
 
 			y=300
@@ -189,7 +225,7 @@ def move_me():
 while RUNNING==True:
 	stop=True
 	c=0
-	if len(block_list)<30:
+	if len(block_list)<35:
 		make_blocks()
 	else:
 		move_me()
