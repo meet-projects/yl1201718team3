@@ -24,7 +24,7 @@ block_list=[]
 FOOD_list=[]
 blockxpos=[-400,-200,-100,100,200,400]
 
-#CLASS
+#BLOCKS
 class BLOCK(Turtle):
 	def __init__(self,x,y,number):
 		Turtle.__init__(self)
@@ -54,59 +54,6 @@ class BLOCK(Turtle):
 			self.goto(-400,-350)
 			self.goto(-400,400)
 			self.goto(0,400)
-
-class Food(Turtle):
-	def __init__ (self,x,y):
-		Turtle.__init__(self)
-		self.hideturtle()
-		self.shape("circle")
-		self.pu()
-		self.x=x
-		self.y=y
-		self.goto(x,y)
-		self.dy=15
-		self.radius=10
-		self.shapesize(10/10)
-		self.color("red")
-		self.showturtle()
-	def movef(self):
-		current_x=self.xcor()
-		current_y=self.ycor()
-		new_y=current_y-self.dy
-		new_x=current_x
-		buttom_side_ball=new_y-self.radius
-		self.goto(new_x,new_y)
-
-def make_food():
-	for b in range(FOOD_NUM):
-		m=random.randint(0,3)
-
-		if m==0:
-			x=0
-			y=300
-			food=Food(x,y)
-			FOOD_list.append(food)
-		if m==1:
-			x=300
-			y=300
-			food=Food(x,y)
-			FOOD_list.append(food)
-		if m==2:
-			x=-300
-			y=300
-			food=Food(x,y)
-			FOOD_list.append(food)
-		if m==3:
-			pass
-
-def move_food():
-
-	for i in FOOD_list:
-		i.movef()
-
-
-#FUNCTIONS
-
 def make_blocks():
 	for i in range(blocks_num):
 		global me,me2
@@ -146,7 +93,6 @@ def make_blocks():
 		block=BLOCK(x,y,number)
 		block_list.append(block)
 		me2=0
-
 def move_blocks():
 	for i in block_list:
 		i.move()
@@ -196,14 +142,86 @@ def move_me():
 			i.goto(x,y)
 
 
+
+#FOOD
+class Food(Turtle):
+	def __init__ (self,x,y):
+		Turtle.__init__(self)
+		self.hideturtle()
+		self.shape("circle")
+		self.pu()
+		self.x=x
+		self.y=y
+		self.goto(x,y)
+		self.dy=15
+		self.radius=10
+		self.shapesize(10/10)
+		self.color("red")
+		self.showturtle()
+	def movef(self):
+		current_x=self.xcor()
+		current_y=self.ycor()
+		new_y=current_y-self.dy
+		new_x=current_x
+		buttom_side_ball=new_y-self.radius
+		self.goto(new_x,new_y)
+
+def make_food():
+	for b in range(FOOD_NUM):
+		m=random.randint(0,3)
+
+		if m==0:
+			x=0
+			y=300
+			food=Food(x,y)
+			FOOD_list.append(food)
+			block1=BLOCK(300,300,2)
+			block=BLOCK(-300,300,2)
+			block_list.append(block1)
+			block_list.append(block)
+		if m==1:
+			x=300
+			y=300
+			food=Food(x,y)
+			FOOD_list.append(food)
+			block=BLOCK(0,300,2)
+			block_list.append(block)
+			block=BLOCK(-300,300,2)
+			block_list.append(block)
+		if m==2:
+			x=-300
+			y=300
+			food=Food(x,y)
+			FOOD_list.append(food)
+			block=BLOCK(0,300,2)
+			block_list.append(block)
+			block=BLOCK(300,300,2)
+			block_list.append(block)
+		if m==3:
+			block=BLOCK(0,300,2)
+			block_list.append(block)
+			block=BLOCK(300,300,2)
+			block_list.append(block)
+			block=BLOCK(-300,300,2)
+			block_list.append(block)
+			
+			
+
+def move_food():
+
+	for i in FOOD_list:
+		i.movef()
+
+
+
 while RUNNING==True:
 	stop=True
 	c=0
-	if len(block_list)<35:
+	make_food()
+	if len(block_list)<38:
 		make_blocks()
 	else:
 		move_me()
-	make_food()
 	while stop==True:
 		move_blocks()
 		move_food()
