@@ -237,7 +237,7 @@ def move_snake():
 
 make_food()
 move_snake()
-
+turtle.mainloop()
 
 
 ##
