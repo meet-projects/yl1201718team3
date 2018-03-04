@@ -3,6 +3,8 @@ import turtle
 import random
 import math
 import time
+
+#VARIABLES
 turtle.colormode(255)
 turtle.hideturtle()
 turtle.pu()
@@ -12,15 +14,19 @@ me=8
 SLEEP=0.065
 me2=1
 FOOD_NUM=1
-blocks_num=7
+blocks_num=8
 RUNNING=True
 SCREEN_WIDTH=400
 SCREEN_HEIGHT=400
+
+#LISTS
 block_list=[]
 FOOD_list=[]
 xposes=[-300,-200,-100,0,100,200,300,400]
+me_x_poses=[-300,-200,-100,0,100,200,300,400]
+difference=[]
 
-#BLOCKS
+#CLASS
 class BLOCK(Turtle):
 	def __init__(self,x,y,number):
 		Turtle.__init__(self)
@@ -51,7 +57,45 @@ class BLOCK(Turtle):
 			self.goto(-400,400)
 			self.goto(0,400)
 
+class Food(Turtle):
+	def __init__ (self,x,y):
+		Turtle.__init__(self)
+		self.hideturtle()
+		self.shape("circle")
+		self.pu()
+		self.x=x
+		self.y=y
+		self.goto(x,y)
+		self.dy=15
+		self.radius=10
+		self.shapesize(10/10)
+		self.color("red")
+		self.showturtle()
+	def movef(self):
+		current_x=self.xcor()
+		current_y=self.ycor()
+		new_y=current_y-self.dy
+		new_x=current_x
+		buttom_side_ball=new_y-self.radius
+		self.goto(new_x,new_y)
+def make_food():
+	for b in range(FOOD_NUM):
+		global difference,me_x_poses
+		for a in block_list:
+			if a.xcor() not in me_x_poses:
+				difference.append(a)
+		if(len(difference) > 0):
+			x= random.choice(difference)
+			y=300
+			block=Food(x,y)
+			FOOD_list.append(block)
+def move_food():
 
+	for i in FOOD_list:
+		i.movef()
+
+
+#FUNCTIONS
 
 def make_blocks():
 	for i in range(blocks_num):
@@ -94,9 +138,9 @@ def make_blocks():
 		me2=0
 
 def move_blocks():
-
 	for i in block_list:
 		i.move()
+		
 def move_me():
 	for i in block_list:
 		current_x=i.xcor()
@@ -142,45 +186,6 @@ def move_me():
 			i.goto(x,y)
 
 
-#FOOD
-class Food(Turtle):
-	def __init__ (self,x,y):
-		Turtle.__init__(self)
-		self.hideturtle()
-		self.shape("circle")
-		self.pu()
-		self.x=x
-		self.y=y
-		self.goto(x,y)
-		self.dy=15
-		self.radius=10
-		self.shapesize(10/10)
-		self.color("red")
-		self.showturtle()
-	def movef(self):
-		current_x=self.xcor()
-		current_y=self.ycor()
-		new_y=current_y-self.dy
-		new_x=current_x
-		buttom_side_ball=new_y-self.radius
-		self.goto(new_x,new_y)
-def make_food():
-	for i in range(FOOD_NUM):
-		global me,me2
-		x = random.choice(xposes)
-		for i in block_list:
-			while i.xcor == x:
-				x = random.choice(xposes)
-		y=300
-		block=Food(x,y)
-		FOOD_list.append(block)
-def move_food():
-
-	for i in FOOD_list:
-		i.movef()
-
-
-
 while RUNNING==True:
 	stop=True
 	c=0
@@ -195,7 +200,7 @@ while RUNNING==True:
 		c+=1
 		if c==10:
 			stop=False
-		getscreen().update()
+		update()
 		time.sleep(SLEEP)
 
 
