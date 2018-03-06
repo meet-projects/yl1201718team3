@@ -1,7 +1,7 @@
 from turtle import *
 import random
 
-class Ball(Turtle):
+class BALL(Turtle):
 	def __init__(self,xpos,ypos,dx,dy,radius):
 		Turtle.__init__(self)
 		self.pu()
@@ -30,12 +30,32 @@ class Ball(Turtle):
 			self.dy = -self.dy
 
 
-class Square(Turtle):
-	def __init__(self,xpos,ypos,dx,dy):
+class BLOCK(Turtle):
+	def __init__(self,x,y,number):
 		Turtle.__init__(self)
-		self.pu()
-		self.goto(xpos,ypos)
-		self.dx = dx
-		self.dy = dy
 		self.shape("square")
-		self.shapesize(50/10)
+		self.pu()
+		self.x=x
+		self.y=y
+		self.goto(x,y)
+		self.dy=15
+		self.height=2
+		self.shapesize(4)
+		
+	def move(self):
+		current_x=self.xcor()
+		current_y=self.ycor()
+		new_y=current_y-self.dy
+		new_x=current_x
+		
+		buttom_side_ball=new_y-self.height
+		
+		self.goto(new_x,new_y)
+		if buttom_side_ball<-400:
+			self.goto(-400,-350)
+			self.goto(-400,400)
+			self.goto(0,400)
+
+a=BLOCK(0,0,5)
+a.move()
+mainloop()
