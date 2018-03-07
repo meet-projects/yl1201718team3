@@ -84,8 +84,8 @@ class BLOCK(Turtle):
 		self.y=y
 		self.goto(x,y)
 		self.dy=15
-		self.height=1.7
-		self.shapesize(1.7*2)
+		self.height=1.8
+		self.shapesize(1.8*2)
 		r=random.randint(0,225)
 		g=random.randint(0,225)
 		b=random.randint(0,225)
@@ -172,7 +172,7 @@ def move_me():
 	for i in block_list:
 		current_x=i.xcor()
 		current_y=i.ycor()
-		new_y=current_y-i.dy
+		new_y=current_y-(i.dy)
 		new_x=current_x
 		buttom_side_ball=new_y-i.height
 		if buttom_side_ball > 300:
@@ -311,14 +311,28 @@ class tail_circle(Turtle):
 
 MY_HEAD = head_circle( "Red", 0 , -300 , FIXED_RADUIS)
 
-def collisioin():
-	for i in BLOCKS:
+def collisioin_blocks():
+	for i in block_list:
 
-		d1 = MY_HEAD.shapesize()[0]*10+(i.shapesize()[0])*10
-		d2 = math.pow((MY_HEAD.xcor()-i.xcor()),2)+math.pow((MY_HEAD.ycor()-i.ycor()),2)
-		if (d1>=math.sqrt(d2)):
+		rec_top=i.ycor()+(i.shapesize()[0]/2)*10
+		rec_right=i.xcor()+(i.shapesize()[0]/2)*10
+		rec_bottom=i.ycor()-(i.shapesize()[0]/2)*10
+		rec_left=i.xcor()-(i.shapesize()[0]/2)*10
+
+		ball_top=MY_HEAD.ycor()+(MY_HEAD.shapesize()[0]/2)
+		ball_right=MY_HEAD.xcor()+(MY_HEAD.shapesize()[0]/2)
+		ball_bottom=MY_HEAD.ycor()-(MY_HEAD.shapesize()[0]/2)
+		ball_left=MY_HEAD.xcor()-(MY_HEAD.shapesize()[0]/2)
+		if (ball_top>= rec_bottom):
+			print("collision")
+			print(ball_bottom)
+			print(ball_top)
+			print(rec_bottom)
+			block_list.remove(i)
+			i.ht()
 			return(True)
 		else:
+			print("no")
 			return(False)
 def movearound(event):
 
@@ -357,9 +371,13 @@ def check_click():
 			while c<10:
 				MY_HEAD.tail_follow()
 				c+=2
-				move_blocks()
-				move_food()
+				if c==2 or c==4 or c==6 or c==8:
+					move_blocks()
+					move_food()
 				getscreen().update()
+				d= collisioin_blocks()
+				if d==True:
+					print("game over")
 
 
 	elif xclick>=-75  and xclick<=75  and yclick> -92 and yclick <= -73:
@@ -378,21 +396,21 @@ def check_click():
 		goto(0, screenMaxY - 150)
 		write("you start with 4 balls", align="center", font=("Arial",15))
 		goto(0,screenMaxY- 200)
-		write("through your path you will have a number  of balls with random numbers", align="center", font=("Arial",15))
+		write("through your path you will have a number  of balls", align="center", font=("Arial",15))
 		goto(0,screenMaxY-250)
 		write("your goal must be eating as much balls as you can.", align="center", font=("Arial",15))
 		goto(0,screenMaxY-300)
-		write("However; the trick is to eat the ball with highest number in order to get your snake as tall as you can", align="center", font=("Arial",15))
+		write("However; the trick is to eat the highest number of balls in order to get your snake as tall as you can", align="center", font=("Arial",15))
 		goto(0,screenMaxY-350)
-		write("your next mission is to pass through a block of squares that have random numbers ", align="center", font=("Arial",15))
+		write("your next mission is to pass through a block of squares", align="center", font=("Arial",15))
 		goto(0,screenMaxY-400)
-		write("you must target the block with the lowest number because in this game the blocks are your enemy ,due to their roll which is against your will to keep your snake alive ", align="center", font=("Arial",15))
+		write("because in this game the blocks are your enemy ,due to their roll which is against your will to keep your snake alive ", align="center", font=("Arial",15))
 		goto(0,screenMaxY-450)
 		write("when you bump into one of the squares ", align="center", font=("Arial",15))
 		goto(0,screenMaxY-500)
 		write("here, both of you will have a competition ", align="center", font=("Arial",15))
 		goto(0,screenMaxY-550)
-		write("each one of you will start losing its soliders who are the numbers until one of you run out of its soliders ", align="center", font=("Arial",15))
+		write("each one of you will lose one of its soliders", align="center", font=("Arial",15))
 		goto(0,screenMaxY-600)
 		write("if you win you will continue your path but if you lose (GAME OVER) :-0", align="center", font=("Arial",15))
 		print("how to play is on")

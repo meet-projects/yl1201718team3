@@ -312,7 +312,7 @@ class tail_circle(Turtle):
 MY_HEAD = head_circle( "Red", 0 , -300 , FIXED_RADUIS)
 
 def collisioin():
-	for i in BLOCKS:
+	for i in block_list:
 
 		d1 = MY_HEAD.shapesize()[0]*10+(i.shapesize()[0])*10
 		d2 = math.pow((MY_HEAD.xcor()-i.xcor()),2)+math.pow((MY_HEAD.ycor()-i.ycor()),2)
