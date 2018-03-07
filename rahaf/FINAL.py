@@ -15,10 +15,12 @@ me=8
 SLEEP1=0.5
 me2=1
 FOOD_NUM=1
-blocks_num=8
+timer=500
+blocks_num=1
 RUNNING=True
 SCREEN_WIDTH=400
 SCREEN_HEIGHT=400
+b=0
 screen = Screen()
 turtle.penup()
 
@@ -37,8 +39,8 @@ left_border = 100
 
 #LISTS
 block_list=[]
-FOOD_list=[]
-blockxpos=[-400,-200,-100,100,200,400]
+#FOOD_list=[]
+blockxpos=[-300,-200,-100,100,200,400]
 
 #appearence
 
@@ -83,7 +85,7 @@ class BLOCK(Turtle):
 		self.x=x
 		self.y=y
 		self.goto(x,y)
-		self.dy=15
+		self.dy=7
 		self.height=1.8
 		self.shapesize(1.8*2)
 		r=random.randint(0,225)
@@ -103,55 +105,6 @@ class BLOCK(Turtle):
 			self.goto(-400,-350)
 			self.goto(-400,400)
 			self.goto(0,400)
-
-class Food(Turtle):
-	def __init__ (self,x,y):
-		Turtle.__init__(self)
-		self.hideturtle()
-		self.shape("circle")
-		self.pu()
-		self.x=x
-		self.y=y
-		self.goto(x,y)
-		self.dy=15
-		self.radius=10
-		self.shapesize(10/10)
-		self.color("red")
-		self.showturtle()
-	def movef(self):
-		current_x=self.xcor()
-		current_y=self.ycor()
-		new_y=current_y-self.dy
-		new_x=current_x
-		buttom_side_ball=new_y-self.radius
-		self.goto(new_x,new_y)
-
-def make_food():
-	for b in range(FOOD_NUM):
-		m=random.randint(0,3)
-
-		if m==0:
-			x=0
-			y=300
-			food=Food(x,y)
-			FOOD_list.append(food)
-		if m==1:
-			x=300
-			y=300
-			food=Food(x,y)
-			FOOD_list.append(food)
-		if m==2:
-			x=-300
-			y=300
-			food=Food(x,y)
-			FOOD_list.append(food)
-		if m==3:
-			pass
-
-def move_food():
-
-	for i in FOOD_list:
-		i.movef()
 
 
 #FUNCTIONS
@@ -185,65 +138,6 @@ def move_me():
 
 
 #FOOD
-class Food(Turtle):
-	def __init__ (self,x,y):
-		Turtle.__init__(self)
-		self.hideturtle()
-		self.shape("circle")
-		self.pu()
-		self.x=x
-		self.y=y
-		self.goto(x,y)
-		self.dy=15
-		self.radius=10
-		self.shapesize(10/10)
-		self.color("red")
-		self.showturtle()
-	def movef(self):
-		current_x=self.xcor()
-		current_y=self.ycor()
-		new_y=current_y-self.dy
-		new_x=current_x
-		buttom_side_ball=new_y-self.radius
-		self.goto(new_x,new_y)
-
-def make_food():
-	for b in range(FOOD_NUM):
-		m=random.randint(0,3)
-
-		if m==0:
-			x=0
-			y=300
-			food=Food(x,y)
-			FOOD_list.append(food)
-			block=BLOCK(-300,300,2)
-			block_list.append(block)
-		if m==1:
-			x=300
-			y=300
-			food=Food(x,y)
-			FOOD_list.append(food)
-			block=BLOCK(0,300,2)
-			block_list.append(block)
-		if m==2:
-			x=-300
-			y=300
-			food=Food(x,y)
-			FOOD_list.append(food)
-			block=BLOCK(300,300,2)
-			block_list.append(block)
-		if m==3:
-			block=BLOCK(0,300,2)
-			block_list.append(block)
-			block=BLOCK(300,300,2)
-			block_list.append(block)
-			
-			
-
-def move_food():
-
-	for i in FOOD_list:
-		i.movef()
 
 
 class head_circle(Turtle):
@@ -311,29 +205,32 @@ class tail_circle(Turtle):
 
 MY_HEAD = head_circle( "Red", 0 , -300 , FIXED_RADUIS)
 
-def collisioin_blocks():
+def collisioin():
 	for i in block_list:
 
-		rec_top=i.ycor()+(i.shapesize()[0]/2)*10
-		rec_right=i.xcor()+(i.shapesize()[0]/2)*10
-		rec_bottom=i.ycor()-(i.shapesize()[0]/2)*10
-		rec_left=i.xcor()-(i.shapesize()[0]/2)*10
+		rec_top=i.ycor()+((i.shapesize()[0]/2)*20)
+		rec_right=i.xcor()+((i.shapesize()[0]/2)*20)
+		rec_bottom=i.ycor()-((i.shapesize()[0]/2)*20)
+		rec_left=i.xcor()-((i.shapesize()[0]/2)*20)
 
-		ball_top=MY_HEAD.ycor()+(MY_HEAD.shapesize()[0]/2)
-		ball_right=MY_HEAD.xcor()+(MY_HEAD.shapesize()[0]/2)
-		ball_bottom=MY_HEAD.ycor()-(MY_HEAD.shapesize()[0]/2)
-		ball_left=MY_HEAD.xcor()-(MY_HEAD.shapesize()[0]/2)
-		if (ball_top>= rec_bottom):
+		ball_top=MY_HEAD.ycor()+(MY_HEAD.shapesize()[0]/2)*20
+		ball_right=MY_HEAD.xcor()+(MY_HEAD.shapesize()[0]/2)*20
+		ball_bottom=MY_HEAD.ycor()-(MY_HEAD.shapesize()[0]/2)*20
+		ball_left=MY_HEAD.xcor()-(MY_HEAD.shapesize()[0]/2)*20
+		if (ball_top>= rec_bottom and ball_right>= rec_left and ball_bottom<= rec_top and ball_left<= rec_right):
 			print("collision")
-			print(ball_bottom)
-			print(ball_top)
-			print(rec_bottom)
-			block_list.remove(i)
 			i.ht()
+			block_list.remove(i)
 			return(True)
 		else:
 			print("no")
 			return(False)
+def printTime():
+    #timer function:
+    global timer
+    turtle.clear()
+    turtle.write(timer,font=("Courier",20,"normal"))
+    timer=timer-1
 def movearound(event):
 
 	X1 = (event.x - screen_width - 75)
@@ -352,18 +249,21 @@ def check_click():
 		goto(-300,screenMaxY-50)
 		turtle.stamp()
 		RUNNING=True
-		while RUNNING==True:
+		
+		while RUNNING==True and timer>-1:
+			global b
 			stop=True
 			c=0
-        	
-			make_food()
-			if len(block_list)<35:
+			printTime()
+			if len(block_list)<1:
 				make_blocks()
 				if c==0:
+					b=b+1
+					
 
 					MY_HEAD.add_tail(0,-FIXED_RADUIS*2-30)
-					MY_HEAD.add_tail(0,-FIXED_RADUIS*3-10)
-					MY_HEAD.add_tail(0,-FIXED_RADUIS*3-10)
+					#MY_HEAD.add_tail(0,-FIXED_RADUIS*3-10)
+					#MY_HEAD.add_tail(0,-FIXED_RADUIS*3-10)
 					c=10
 			else:
 				move_me()
@@ -373,12 +273,16 @@ def check_click():
 				c+=2
 				if c==2 or c==4 or c==6 or c==8:
 					move_blocks()
-					move_food()
-				getscreen().update()
-				d= collisioin_blocks()
+				d= collisioin()
 				if d==True:
-					print("game over")
+					pass
 
+				getscreen().update()
+					#RUNNING=False
+		if RUNNING==False or timer==-1:
+			global b 
+			turtle.clear()
+			turtle.write("Time is up, you earned "+str(b)+" points!",align="Center",font=("Courier", 20,"bold"))
 
 	elif xclick>=-75  and xclick<=75  and yclick> -92 and yclick <= -73:
 
@@ -394,25 +298,17 @@ def check_click():
 		color('black')
 		write(" Description about the game:", align="center", font=("Arial",25))
 		goto(0, screenMaxY - 150)
-		write("you start with 4 balls", align="center", font=("Arial",15))
+		write("you start with 2 balls", align="center", font=("Arial",15))
 		goto(0,screenMaxY- 200)
-		write("through your path you will have a number  of balls", align="center", font=("Arial",15))
+		write("through your path you will see blocks falling ", align="center", font=("Arial",15))
 		goto(0,screenMaxY-250)
-		write("your goal must be eating as much balls as you can.", align="center", font=("Arial",15))
+		write("your goal must be eating as much blocks as you can.", align="center", font=("Arial",15))
 		goto(0,screenMaxY-300)
-		write("However; the trick is to eat the highest number of balls in order to get your snake as tall as you can", align="center", font=("Arial",15))
-		goto(0,screenMaxY-350)
-		write("your next mission is to pass through a block of squares", align="center", font=("Arial",15))
-		goto(0,screenMaxY-400)
-		write("because in this game the blocks are your enemy ,due to their roll which is against your will to keep your snake alive ", align="center", font=("Arial",15))
-		goto(0,screenMaxY-450)
 		write("when you bump into one of the squares ", align="center", font=("Arial",15))
-		goto(0,screenMaxY-500)
-		write("here, both of you will have a competition ", align="center", font=("Arial",15))
-		goto(0,screenMaxY-550)
-		write("each one of you will lose one of its soliders", align="center", font=("Arial",15))
-		goto(0,screenMaxY-600)
-		write("if you win you will continue your path but if you lose (GAME OVER) :-0", align="center", font=("Arial",15))
+		goto(0,screenMaxY-350)
+		write("here, the block is eaten and another one falls ", align="center", font=("Arial",15))
+		goto(0,screenMaxY-400)
+		write("Play with your friends and try to see who gets the highest score and challenge them!!! BB :-0", align="center", font=("Arial",15))
 		print("how to play is on")
 
 
